@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.api_0527.databinding.ActivityLoginBinding;
 import com.example.api_0527.utils.ServerUtil;
@@ -46,6 +47,16 @@ public class LoginActivity extends BaseActivity {
                             }
                             else{
                                 Log.d("분석결과","로그인실패!");
+
+                                final String failreason = json.getString("message");
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(mContext,failreason,Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
