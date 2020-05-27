@@ -2,6 +2,7 @@ package com.example.api_0527;
 
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,12 +29,21 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void setupEvents() {
 
+        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myintent = new Intent(mContext,SignUpActivity.class);
+                startActivity(myintent);
+            }
+        });
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String email = binding.emailEdt.getText().toString();
                 String password = binding.pwEdt.getText().toString();
+
+//email : kj_cho@nepp.kr/pw:Test!123
 
                 ServerUtil.postLogin(mContext, email, password, new ServerUtil.JsonResponseHandler() {
                     @Override
