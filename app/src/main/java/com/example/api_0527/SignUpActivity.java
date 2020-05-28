@@ -44,16 +44,7 @@ public class SignUpActivity extends BaseActivity {
 
            @Override
            public void onTextChanged(CharSequence s, int start, int before, int count) {
-               String pw = s.toString();
-               if (pw.length()==0){
-                   binding.pwCheckTxt.setText("비밀번호를 입력해주세요");
-               }
-               else if(pw.length()<8){
-                   binding.pwCheckTxt.setText("비밀번호가 너무 짧습니다");
-               }
-               else{
-                   binding.pwCheckTxt.setText("사용해도 좋은 비밀번호 입니다");
-               }
+               checkpasswords();
            }
 
            @Override
@@ -69,25 +60,39 @@ public class SignUpActivity extends BaseActivity {
 
            @Override
            public void onTextChanged(CharSequence s, int start, int before, int count) {
+               checkpasswords();
 
-               String pwRepeat = s.toString();
-
-               if (pwRepeat.length()==0){
-                   binding.pwRepeatCheckTxt.setText("비밀번호 확인을 입력해주세요");
-               }
-               else if(pwRepeat.equals(binding.pwEdt.getText().toString())){
-                   binding.pwRepeatCheckTxt.setText("비밀번호가 재입력이 확인되었습니다");
-               }
-               else{
-                   binding.pwRepeatCheckTxt.setText("비밀번호가 서로 다릅니다다");
-               }
           }
 
+//          응용문제 => 비번/비번확인중 어느것을 타이핑해도 매번 둘다 검사
            @Override
            public void afterTextChanged(Editable s) {
 
            }
        });
+    }
+    void checkpasswords(){
+        String pw = binding.pwEdt.getText().toString();
+        if (pw.length()==0){
+            binding.pwCheckTxt.setText("비밀번호를 입력해주세요");
+        }
+        else if(pw.length()<8){
+            binding.pwCheckTxt.setText("비밀번호가 너무 짧습니다");
+        }
+        else{
+            binding.pwCheckTxt.setText("사용해도 좋은 비밀번호 입니다");
+        }
+        String pwRepeat = binding.pwRepeat.getText().toString();
+
+        if (pwRepeat.length()==0){
+            binding.pwRepeatCheckTxt.setText("비밀번호 확인을 입력해주세요");
+        }
+        else if(pwRepeat.equals(binding.pwEdt.getText().toString())){
+            binding.pwRepeatCheckTxt.setText("비밀번호가 재입력이 확인되었습니다");
+        }
+        else{
+            binding.pwRepeatCheckTxt.setText("비밀번호가 서로 다릅니다다");
+        }
     }
 
     @Override
