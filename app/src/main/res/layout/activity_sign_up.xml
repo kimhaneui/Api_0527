@@ -40,12 +40,14 @@
             android:text="비밀번호"
             android:layout_marginTop="20dp"/>
         <EditText
+            android:id="@+id/pwEdt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호 입력"
             android:layout_marginTop="5dp"
             android:inputType="textPassword"/>
         <TextView
+            android:id="@+id/pwCheckTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호를 입력해주세요"/>
@@ -55,11 +57,13 @@
             android:text="비밀번호 확인"
             android:layout_marginTop="20dp"/>
         <EditText
+            android:id="@+id/pwRepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="비밀번호를 다시 입력해주세요"/>
         <TextView
+            android:id="@+id/pwRepeatCheckTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호 확인을 입력해주세요"/>
