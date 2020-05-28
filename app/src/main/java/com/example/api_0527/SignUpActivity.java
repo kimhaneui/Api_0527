@@ -45,6 +45,9 @@ public class SignUpActivity extends BaseActivity {
     @Override
     public void setupEvents() {
 
+//       닉네임 중복확인 버튼 => 서버에 중복확인 요청 (문서 참조)
+//        =>성공일 경우 "사용해도 좋습니다" 토스트
+//        =>실패일 경우 "중복된 닉네임 입니다"  토스트
        binding.emailEdt.addTextChangedListener(new TextWatcher() {
            @Override
            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -54,10 +57,11 @@ public class SignUpActivity extends BaseActivity {
            @Override
            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-//               email을 변경하면 무조건 중복검사를 실패로
+//               email을 변경하면 무조건 중복검사를 실패로 변경 => 재검사 요구
                idCheckok = false;
                binding.idCheckResultTxt.setText("중복 검사를 진행해주세요.");
 
+//               버튼 비활성화 체크
                checkSignUpEnable();
            }
 
@@ -67,6 +71,47 @@ public class SignUpActivity extends BaseActivity {
            }
        });
 
+       binding.nickNameBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               String inputNick = binding.nickNameEdt.getText().toString();
+               ServerUtil.getRequestDuplicatedCheck(mContext, inputNick, "NICKNAME", new ServerUtil.JsonResponseHandler() {
+
+                   @Override
+                   public void onResponse(JSONObject json) {
+                       Log.d("중복응답확인",json.toString());
+
+                       try {
+                           int code = json.getInt("code");
+                           if (code == 200) {
+                               runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       Toast.makeText(mContext,"사용해도 좋습니다",Toast.LENGTH_SHORT).show();
+                                       binding.nickRepeatCheckTxt.setText("사용해도 좋습니다");
+
+                                       idCheckok = true;
+                                   }
+                               });
+                           }
+                           else{
+                               runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       Toast.makeText(mContext,"중복된 닉네임 입니다",Toast.LENGTH_SHORT).show();
+                                       binding.nickRepeatCheckTxt.setText("중복된 닉네임 입니다");
+                                   }
+                               });
+
+                           }
+                       } catch (JSONException e) {
+                           e.printStackTrace();
+                       }
+                   }
+               });
+           }
+       });
        binding.idCheckBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
