@@ -22,6 +22,7 @@ public class SignUpActivity extends BaseActivity {
     ActivitySignUpBinding binding;
 
     boolean idCheckok = false;
+    boolean nickNameCheckok = false;
 
 //    응용문제
 //    비번은 타이핑 할때 마다 길이 검사
@@ -44,6 +45,44 @@ public class SignUpActivity extends BaseActivity {
 
     @Override
     public void setupEvents() {
+
+       binding.signupBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+//               회원가입 => 이메일/비번/닉네임 입력값 받아오자.
+               String email = binding.emailEdt.getText().toString();
+               String pw = binding.pwEdt.getText().toString();
+               String nickName = binding.nickNameEdt.getText().toString();
+//              서버에 회원가입 기능 호출 => 가입 정보 전달(ServerUtil 회원가입 기능 필요)
+
+               ServerUtil.putRequestSignUp(mContext, email, pw, nickName, new ServerUtil.JsonResponseHandler() {
+                   @Override
+                   public void onResponse(JSONObject json) {
+                       Log.d("회원가입응답",json.toString());
+                   }
+               });
+           }
+       });
+       binding.nickNameEdt.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+               nickNameCheckok = false;
+               binding.nickRepeatCheckTxt.setText("중복");
+
+               checkSignUpEnable();
+           }
+
+           @Override
+           public void afterTextChanged(Editable s) {
+
+           }
+       });
 
 //       닉네임 중복확인 버튼 => 서버에 중복확인 요청 (문서 참조)
 //        =>성공일 경우 "사용해도 좋습니다" 토스트
@@ -91,7 +130,7 @@ public class SignUpActivity extends BaseActivity {
                                        Toast.makeText(mContext,"사용해도 좋습니다",Toast.LENGTH_SHORT).show();
                                        binding.nickRepeatCheckTxt.setText("사용해도 좋습니다");
 
-                                       idCheckok = true;
+                                       nickNameCheckok = true;
                                    }
                                });
                            }
@@ -105,6 +144,14 @@ public class SignUpActivity extends BaseActivity {
                                });
 
                            }
+
+                           runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   checkSignUpEnable();
+                               }
+                           });
+
                        } catch (JSONException e) {
                            e.printStackTrace();
                        }
@@ -235,8 +282,11 @@ public class SignUpActivity extends BaseActivity {
 
        boolean isAllPasswordOk = checkpasswords();
 
+       Log.d("비번체크", isAllPasswordOk+"");
+       Log.d("아이디체크",idCheckok+"");
+        Log.d("nickNameCheckok",nickNameCheckok+"");
 
-       binding.signupBtn.setEnabled(isAllPasswordOk && idCheckok);
+       binding.signupBtn.setEnabled(isAllPasswordOk && idCheckok&&nickNameCheckok);
     }
 
     @Override
