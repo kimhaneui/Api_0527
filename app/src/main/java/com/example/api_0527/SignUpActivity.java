@@ -71,7 +71,10 @@ public class SignUpActivity extends BaseActivity {
            }
        });
     }
-    void checkpasswords(){
+    boolean checkpasswords(){
+
+       boolean isPwOk = false;
+
         String pw = binding.pwEdt.getText().toString();
         if (pw.length()==0){
             binding.pwCheckTxt.setText("비밀번호를 입력해주세요");
@@ -81,18 +84,31 @@ public class SignUpActivity extends BaseActivity {
         }
         else{
             binding.pwCheckTxt.setText("사용해도 좋은 비밀번호 입니다");
+            isPwOk = true;
         }
+
+        boolean isPwRepeatOk = false;
+
         String pwRepeat = binding.pwRepeat.getText().toString();
 
         if (pwRepeat.length()==0){
             binding.pwRepeatCheckTxt.setText("비밀번호 확인을 입력해주세요");
         }
-        else if(pwRepeat.equals(binding.pwEdt.getText().toString())){
+        else if(pwRepeat.equals(pw)){
             binding.pwRepeatCheckTxt.setText("비밀번호가 재입력이 확인되었습니다");
+            isPwRepeatOk = true;
         }
         else{
             binding.pwRepeatCheckTxt.setText("비밀번호가 서로 다릅니다다");
         }
+        return isPwOk && isPwRepeatOk;
+    }
+//    아이디중복/비번확인/닉네임 중복이 모두 통과여야 회원가입가능 / 하나라도 틀리면 회원가입버튼 비활성화
+
+    void checkSignUpEnable(){
+
+       boolean isAllPasswordOk = checkpasswords();
+
     }
 
     @Override
