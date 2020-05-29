@@ -3,13 +3,16 @@ package com.example.api_0527;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.api_0527.databinding.ActivityMainBinding;
 import com.example.api_0527.datas.Topic;
 import com.example.api_0527.datas.User;
+import com.example.api_0527.utils.ContentUtil;
 import com.example.api_0527.utils.ServerUtil;
 
 import org.json.JSONException;
@@ -32,6 +35,18 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setupEvents() {
 
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ContentUtil.setLoginUserToken(mContext,"");
+
+                Intent myIntent = new Intent(mContext,LoginActivity.class);
+                startActivity(myIntent);
+
+                finish();
+            }
+        });
     }
 
     @Override
