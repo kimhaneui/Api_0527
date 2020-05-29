@@ -6,7 +6,9 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.example.api_0527.databinding.ActivityMainBinding;
+import com.example.api_0527.datas.Topic;
 import com.example.api_0527.datas.User;
 import com.example.api_0527.utils.ServerUtil;
 
@@ -50,11 +52,17 @@ public class MainActivity extends BaseActivity {
 
                         final User me = User.getUserFromJson(user);
 
+                        JSONObject topic = data.getJSONObject("topic");
+                        final Topic thisWeekTopic = Topic.getTopicFromJson(topic);
+
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 binding.nickNameTxt.setText(me.getNickName());
                                 binding.emailTxt.setText(me.getEmail());
+
+                                Glide.with(mContext).load(thisWeekTopic.getImageUrl()).into(binding.topicImg);
                             }
                         });
 
