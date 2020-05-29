@@ -60,6 +60,10 @@ public class LoginActivity extends BaseActivity {
                                 String token = data.getString("token");
 
                                 ContentUtil.setLoginUserToken(mContext,token);
+//                                로그인 성공시 자동로그인 사용 여부를 기록
+                                ContentUtil.setIsAutoLogin(mContext,binding.autoLoginBox.isChecked());
+
+                                binding.autoLoginBox.isChecked();
                                 Intent myIntent = new Intent(mContext,MainActivity.class);
                                 startActivity(myIntent);
                                 finish();
