@@ -6,10 +6,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         tools:context=".MainActivity">
+        <ImageView
+            android:id="@+id/topicImg"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"/>
 
         <TextView
+            android:layout_marginTop="50dp"
             android:id="@+id/nickNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
